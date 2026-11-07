@@ -1,14 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OWF - Video Enhancer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b14">
+<title>OWF - AI Video Enhancer</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#080b14;color:white;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:25px 8%}
+.logo{font-size:30px;font-weight:bold;color:#8b70ff;letter-spacing:2px}
+nav a{color:#ccc;text-decoration:none;margin-left:25px;font-size:14px}
+.hero{text-align:center;padding:100px 20px 90px}
+.tag{color:#9b85ff;font-size:13px;letter-spacing:2px;margin-bottom:25px}
+h1{font-size:clamp(38px,7vw,68px);line-height:1.15;margin-bottom:22px}
+h1 span{color:#8b70ff}
+.description{color:#a5a8b5;max-width:550px;margin:auto;line-height:1.7;font-size:16px}
+button{border:0;cursor:pointer;font-weight:bold;border-radius:9px;transition:.2s}
+button:hover{transform:translateY(-2px);opacity:.9}
+.start-btn,.choose-btn{background:#7958ff;color:white}
+.start-btn{margin-top:35px;padding:16px 35px;font-size:16px}
+.upload-section{padding:50px 20px 100px;text-align:center}
+.upload-section h2{font-size:32px;margin-bottom:12px}
+.upload-section>p{color:#a5a8b5;margin-bottom:30px}
+.upload-box{max-width:650px;margin:auto;padding:55px 20px;border:2px dashed #514477;border-radius:18px;background:#111522}
+.upload-icon{font-size:45px;margin-bottom:20px}
+.upload-box h3{margin-bottom:10px}
+.upload-box p{color:#999eae;font-size:14px;margin-bottom:25px}
+.choose-btn{padding:14px 28px;font-size:15px}
+#videoInput{display:none}
+#fileName{color:#b9aaff;margin-top:20px;overflow-wrap:anywhere}
+video{display:none;max-width:100%;max-height:350px;margin:25px auto 0;border-radius:12px}
+#status{color:#a5a8b5;margin-top:18px;font-size:13px}
+footer{text-align:center;padding:25px;border-top:1px solid #202536;color:#777e91;font-size:13px}
+@media(max-width:600px){
+header{padding:20px}
+nav a{margin-left:12px;font-size:12px}
+.hero{padding-top:75px}
+.upload-box{padding:40px 15px}
+}
+</style>
 </head>
+
 <body>
-    <h1>OWF</h1>
-    <h2>Enhance Your Videos with AI</h2>
-    <p>Improve your video quality with the power of AI.</p>
-    <button>Get Started</button>
+
+<header>
+<div class="logo">OWF</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#upload">Enhancer</a>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div class="tag">YOUR VIDEO, REIMAGINED</div>
+<h1>Enhance Your Videos<br>With <span>AI Power</span></h1>
+<p class="description">
+Bring your videos to life. Improve video quality and get ready
+for a better viewing experience with OWF.
+</p>
+<button class="start-btn" onclick="document.getElementById('upload').scrollIntoView({behavior:'smooth'})">
+Get Started →
+</button>
+</section>
+
+<section class="upload-section" id="upload">
+<h2>Upload Your Video</h2>
+<p>Select a video from your device to get started.</p>
+
+<div class="upload-box">
+<div class="upload-icon">🎬</div>
+<h3>Choose your video</h3>
+<p>MP4, MOV and WebM files supported</p>
+
+<input type="file" id="videoInput" accept="video/mp4,video/quicktime,video/webm">
+
+<button class="choose-btn" onclick="document.getElementById('videoInput').click()">
+Select Video
+</button>
+
+<div id="fileName"></div>
+<video id="preview" controls></video>
+<p id="status">Your video stays on this page for preview.</p>
+</div>
+</section>
+
+<footer>
+© 2026 OWF. All rights reserved.
+</footer>
+
+<script>
+const input = document.getElementById("videoInput");
+const preview = document.getElementById("preview");
+const fileName = document.getElementById("fileName");
+const statusText = document.getElementById("status");
+
+let currentVideoURL = null;
+
+input.addEventListener("change", function() {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    if (currentVideoURL) {
+        URL.revokeObjectURL(currentVideoURL);
+    }
+
+    currentVideoURL = URL.createObjectURL(file);
+    preview.src = currentVideoURL;
+    preview.style.display = "block";
+
+    fileName.textContent = "Selected: " + file.name;
+    statusText.textContent = "Video selected successfully! Preview it above.";
+});
+</script>
+
 </body>
 </html>
